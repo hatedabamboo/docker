@@ -1,0 +1,23 @@
+---
+version: "3"
+services:
+
+  server:
+    image: s3ftp:latest
+    env_file: .env
+    volumes:
+      - /path/to/cert.pem:/path/to/cert.pem:ro
+      - /path/to/key.pem:/path/to/key.pem:ro
+    ports:
+      - 21:21
+      - 21000-21010:21000-21010                 # same as MIN_PORT MAX_PORT
+    devices:
+      - /dev/fuse
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - "apparmor=unconfined"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: always
